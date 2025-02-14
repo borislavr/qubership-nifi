@@ -35,6 +35,8 @@ ENV NIFI_PID_DIR=${NIFI_HOME}/run
 ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 ENV HOME=${NIFI_HOME}
 
+USER 10001
+
 FROM apache/nifi:1.28.1 as nifi
 
 RUN sed -i "s:-Xmx256m}:-Xmx640m}:g" $NIFI_BASE_DIR/nifi-toolkit-current/bin/encrypt-config.sh \
