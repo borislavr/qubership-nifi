@@ -13,7 +13,7 @@
 # limitations under the License.
 
 FROM alpine/java:21-jdk as base
-MAINTAINER qubership.org
+LABEL org.opencontainers.image.authors="qubership.org"
 
 USER root
 #add jq:
@@ -61,7 +61,7 @@ RUN sed -i "s:-Xmx256m}:-Xmx640m}:g" $NIFI_BASE_DIR/nifi-toolkit-current/bin/enc
     && rm -rf $NIFI_BASE_DIR/nifi-toolkit-current/lib/testng*.jar
     
 FROM base
-MAINTAINER qubership.org
+LABEL org.opencontainers.image.authors="qubership.org"
 
 USER 10001
 
