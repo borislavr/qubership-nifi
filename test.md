@@ -1,6 +1,7 @@
 # Document title
 
 ---
+
 ## Title 2
 
 ```yaml
