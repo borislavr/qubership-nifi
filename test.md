@@ -13,3 +13,7 @@ example:
 ## Title 3
 
 Some text here
+
+## Title 4
+
+New title added
