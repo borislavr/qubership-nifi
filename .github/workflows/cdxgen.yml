@@ -1,52 +1,24 @@
-name: CDXGen
+---
 
-on: workflow_dispatch
+# The workflow will generate the SBOM file for the repository
+# and vulerability scan report for the SBOM file using CycloneDX
+# The workflow will run on push to main branch and manually triggered workflows
+# The results will be stored in the action artifacts
+
+name: 'CDXGen'
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
 
 jobs:
-  # Build job
-  build:
-    # Specify runner +  build & upload the static files as an artifact
+  cdxgen:
     runs-on: ubuntu-latest
     steps:
-      - name: "Checout code"
-        uses: actions/checkout@v4
-  
-      - name: "Check input"
-        shell: bash
-        run: |
-          if [[ "${{ inputs.project_type }}" != "" ]]
-          then
-            echo "Project type is provided: ${{ inputs.project_type }}"
-            echo "PROJECT_TYPE=-t ${{ inputs.project_type }}" >> $GITHUB_ENV
-          else
-            echo "Project type is not provided"
-            echo "PROJECT_TYPE=" >> $GITHUB_ENV
-          fi
-  
-      - name: "Generate Depscan report"
-        run: |
-          cd ${GITHUB_WORKSPACE}
-          docker run --rm -v $PWD:/app ghcr.io/owasp-dep-scan/dep-scan \
-          --src /app --reports-dir /app/reports
-        shell: bash
-      - name: "Debug"
-        run: |
-          ls -la ./
-      - name: "Upload Depscan report"
-        uses: actions/upload-artifact@v4.6.0
-        with:
-          name: "DEPSCAN report"
-          path: ${{ github.workspace }}/reports/*
-          retention-days: 5
-
-      - name: Upload static files as artifact
-        id: deployment
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ github.workspace }}/reports/
-
-  # Deployment job
-  deploy:
+      - name: "cdxgen"
+        uses: netcracker/qubership-workflow-hub/actions/cdxgen@feature/cdxgen-pages
+  deploy-pages:
     permissions:
       id-token: write
       pages: write
@@ -54,7 +26,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: cdxgen
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
