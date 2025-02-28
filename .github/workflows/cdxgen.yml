@@ -33,4 +33,4 @@ jobs:
         uses: actions/deploy-pages@v4
       - name: "Summary"
         run: |
-          echo "${{ steps.deployment.outputs.page_url }}/cyclondx-report" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.deployment.outputs.page_url }}cyclondx-report" >> $GITHUB_STEP_SUMMARY
