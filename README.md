@@ -74,5 +74,3 @@ On startup qubership-nifi does the following:
 1. Checks if nifi-restore-version property is set
 2. If it's set, then if specified file exists or not. If not exists, then prints warning and continues with normal startup.
 3. If it's set and file exists in archive, then it moves current configuration to archive and replaces current configuration with specified archived version. Once it's done nifi-restore-version property is automatically cleared in Consul.
-
-## PR test
